@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href='https://fonts.googleapis.com/css?family=Inter|Inter:100,200,300,400,500,700' rel='stylesheet'>
+    <link rel="shortcut icon" href="android-chrome-192x192.png" type="image/x-icon">
+    <title>Rockstar Games</title>
+
+
+    <style>
+        body{
+            background-color:#1E1E1E;
+            text-align: center;
+            font-family:'Inter';
+            color: white;
+        }
+
+
+        .title{
+            display: flex;
+            flex-direction: row;
+        }
+
+        .center{
+            display: flex;
+            justify-content:center ;
+            
+        }
+        .title{
+            margin-bottom: 5px;
+        }
+            #title1{
+                
+                font-weight:100;
+                font-size: 50px;
+            }
+
+            #title2{
+                
+                font-weight: bolder;
+                font-size:50px;
+            }
+
+       .div-direção{
+            font-size: 50px;
+            margin-top: 50px;
+        }
+            #direcao{
+                font-weight: bolder;
+            }
+            #andou-para{
+                font-size: 50px;
+                font-weight: lighter;
+            }
+
+        
+        .div-orientação{
+            font-weight: lighter;
+            font-size: 20px;
+            margin-top: 20px;
+            letter-spacing: 15px;
+        }
+            #orientacao_var{
+                font-weight: bolder;
+                font-size: 20px;
+            }
+
+        .div-habilidade{
+            font-weight: lighter;
+            font-size: 20px;
+            margin-top:20px;
+            letter-spacing: 15px;
+        }
+
+        .botão-habilidade-div{
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            }
+
+            #botao-habilidade{
+                color:black;
+                font-weight: lighter;
+                font-size: 17px;
+                background-color: white;
+                display: flex;
+                padding: 25px;
+                text-align: center;
+                border-style: hidden;
+                letter-spacing:5px;
+                padding-left: 40px;
+                padding-right: 40px;
+                /*margin-right: 10px;
+                margin-left: 10px;*/
+                
+            }
+
+            #resultadoHabilidade{
+                color:white;
+                font-weight:bolder;
+                font-size: 20px;
+            }
+
+        .instrucoes-div{
+            padding-right: 1000px;
+            text-align: center;
+            justify-content: center;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+
+
+
+<body>
+<div class="title center" >
+<h1 id="title1">JOGO </h1> <h1 id="title2">LEGAL</h1>
+</div>
+
+
+
+<div class="div-direção" id="div-direção-id" >
+    <span id="andou-para">ANDOU PARA</span>
+    <span id="direcao"> FRENTE</span>   
+</div>
+
+
+<div id="div-orientação-id" class="div-orientação">
+    <span id="orientação-nome">ORIENTAÇÃO</span>
+    <span id="orientacao_var">NORTE</span>
+</div>
+
+
+<div id="div-habilidade-id" class="div-habilidade">
+    <span id="habilidade-nome">HABILIDADE</span>
+    <span id="resultadoHabilidade">DISPONÍVEL</span>
+</div>
+
+<div id=" instrucoes" class="instrucoes-div">
+    <div id="w">
+        W = Frente
+    </div>
+
+    <div id="a" >
+        A = Esquerda
+    </div>
+
+    <div id="s" >
+        S = Trás
+    </div>
+
+    <div id="d">
+        D = Direita
+    </div>
+
+    <div id="info">
+        Habilidade disponivel a cada 10 movimentos
+    </div>
+</div>
+
+<div class="botão-habilidade-div">
+    <input type="button" id="botao-habilidade" value="USAR HABILIDADE">
+</div>
+
+
+
+
+
+<script>
+
+//Iniciar loop principal do jogo
+//Verificar se habilidade esta disponivel
+//Pegar input do teclado
+//Decidir movimento de acordo com input
+
+//Contar quantos cliques para recarregar 
+//linkar botão ao uso da habilidade
+//fazer botão desaparecer quando a habilidade estiver indisponível
+//mostrar que a habilidade esta disponivel/ indisponível
+
+
+    let contadorSkill = 1;
+    let orientacao = 0 ;
+    let isSkillAvailable = true ;
+    let input = -1 ;
+    let textoDirecao = document.getElementById("direcao");
+    let textoAndouPara = document.getElementById("andou-para");
+    let orientacao_var = document.getElementById("orientacao_var");
+    let resultadoSkill = document.getElementById("resultadoHabilidade");
+    let botaoHabilidade = document.getElementById("botao-habilidade");
+
+    botaoHabilidade.addEventListener("click", function(){
+        isSkillAvailable = false;
+        habilidade();
+    });
+
+    function habilidade(){
+        console.log (isSkillAvailable)
+        switch (isSkillAvailable) {
+            case true :
+                resultadoSkill.innerHTML = " DISPONÍVEL";
+                //mostrar botão
+                botaoHabilidade.style.display = "flex"
+                break;
+            case false :
+                resultadoSkill.innerHTML = " INDISPONÍVEL";
+                contadorSkill++ ;
+                //tirar botão
+                botaoHabilidade.style.display = "none"
+                break;
+            default:
+                break;
+        }
+
+
+        if (contadorSkill == 10) {
+            contadorSkill = 1;
+            isSkillAvailable = true;
+            console.log (isSkillAvailable);
+        }  
+        
+    }
+
+    document.addEventListener("keydown",(e)=>{
+        main(e.key);
+        orient(e.key);
+        habilidade();
+        
+    })
+
+
+function main(input){
+    switch (input) {
+        case "w":
+            //andar pra frente
+            //não muda orientação
+            textoDirecao.innerHTML = " FRENTE";
+            textoAndouPara.innerHTML = " ANDOU PARA";
+            break;
+
+            case "W":
+            //andar pra frente
+            //não muda orientação
+            textoDirecao.innerHTML = " FRENTE";
+            textoAndouPara.innerHTML = " ANDOU PARA";
+            break;
+
+        case "a":
+            //girar para esquerda
+            textoDirecao.innerHTML = " ESQUERDA";
+            textoAndouPara.innerHTML = " GIROU PARA";
+            break;
+
+            case "A":
+            //girar para esquerda
+            textoDirecao.innerHTML = " ESQUERDA";
+            textoAndouPara.innerHTML = " GIROU PARA";
+            break;
+
+        case "s":
+            //andar pra trás
+            //não muda orientação
+            textoDirecao.innerHTML = " TRÁS";
+            textoAndouPara.innerHTML = " ANDOU PARA";
+            break;
+            
+            case "S":
+            //andar pra trás
+            //não muda orientação
+            textoDirecao.innerHTML = " TRÁS";
+            textoAndouPara.innerHTML = " ANDOU PARA";
+            break;
+
+        case "d":
+            //girar para direita
+            textoDirecao.innerHTML = " DIREITA";
+            textoAndouPara.innerHTML = " GIROU PARA";
+            break;
+
+            case "D":
+            //girar para direita
+            textoDirecao.innerHTML = " DIREITA";
+            textoAndouPara.innerHTML = " GIROU PARA";
+            break;
+        default:
+            break;
+    }
+
+}
+
+
+    //orientação 
+    /*
+        0
+        N
+  3 O       L 1
+        S
+        2
+
+    
+    */
+   function orient(input){
+        switch (input)
+        {
+        case 'd':
+            orientacao++;
+            break;
+        
+        case 'D':
+            orientacao++;
+            break;
+
+        case 'a':
+            orientacao--;
+            break;
+        
+        case 'A':
+            orientacao--;
+            break;
+
+        default:
+            break;
+        }
+
+        if(orientacao == 4)
+        {
+            orientacao = 0;
+        }
+        if(orientacao == -1)
+        {
+            orientacao = 3;
+        }
+
+        switch (orientacao)
+        {
+        case 0:
+            orientacao_var.innerHTML= "NORTE";
+            break;
+        case 1:
+            orientacao_var.innerHTML= "LESTE";
+            break;
+        case 2:
+            orientacao_var.innerHTML= "SUL";
+            break;
+        case 3:
+            orientacao_var.innerHTML= "OESTE";
+            break;
+        
+        default:
+            break;
+        }
+    }
+
+</script>
+</body>
+</html>
